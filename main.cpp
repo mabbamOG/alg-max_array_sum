@@ -74,7 +74,7 @@ while (i<=n)
 
 j=0;
 //*******************************************************************************************vedi sotto!
-unsigned yo = /*k[3]*/3; ///RIMUOVERE QUESTA RIGA RISULTA NEL PROGRAMMA NON FUNZIONANTE! MA K CAZZO! WTF ANKE UN NUMERO 3 NORMALE????
+/*unsigned*/int yo = /*k[3]*/3; ///RIMUOVERE QUESTA RIGA RISULTA NEL PROGRAMMA NON FUNZIONANTE! MA K CAZZO!
 //***************************************************************************************************
 // step 2: remove negative numbers when handy
 int p=1;
