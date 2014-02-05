@@ -1,12 +1,14 @@
 #include <iostream>
 #include <vector>
-/*void print_array
-{
-    std::cout<<" ( ";
-    for (int i = 0; i < n; i++) { std::cout<<array[i]<<" "; }
-    std::cout<<")"<<std::endl;
-}*/
+#include <cmath>
 
+
+///PRINT ARRAY, FOR DEBUG -- programmer reference
+/*
+std::cout<<" ( ";
+    for (int i = 0; i <= n; i++) { std::cout<<k[i]<<" "; }
+    std::cout<<")"<<std::endl;
+*/
 
 
 ///this algorithm must take an array of elements and return the maximum achievable sum
@@ -22,25 +24,22 @@
 // -- (3,-1,4) in this case removing -1 will result in 3-1+4=6, 6 is bigger than both 3 and 4, so it would be convienent to remove the
 // negative number and sum all of the three up into one number
 ///so what this step does is shrink the array furthermore if it is possible to 'remove' any negatives in a smart way
-///i also make it reiterate for as long as there is no more shrinking available, because if you think about it not always 
+///i also make it reiterate for as long as there is no more shrinking available, because if you think about it not always
 ///can the pc know if, after a shrinking has occured, there are more shrinkings to be done
 
 ///then, lastly, it will calculate which of the positive numbers left is highest, and it will choose that as remaining maximum sum :)
 
-
+///expected result for the current array of input, s[], is 7
 
 int main() {
 const int n=4;
 int s[n+1]={3,-2,4,-4,6};
 int k[n+1]={0};
-//PRINT ARRAY, FOR DEBUG
-/*
-std::cout<<" ( ";
-    for (int i = 0; i <= n+1; i++) { std::cout<<k[i]<<" "; }
-    std::cout<<")"<<std::endl;*/
+
 int i=0, j=0;
+///old step 1. as you can see in while (s[i]>=0) if the i++ kept on going, it could step over the array limits
 // step 1: compress negative and postive subsegments of array s[] into single numbers within array k[]
-while (i<=n)
+/*while (i<=n)
 {
     while (s[i]>=0)
     {
@@ -52,16 +51,31 @@ while (i<=n)
         k[j]+=s[i]; ++i;
     }
     ++j;
+}*/
+
+///kinda ugly fix, needs to be cleaned up...: CERRO, I CHOOSE YOU! "pika!pika!"
+
+while (i<=n)
+{
+
+    while (s[i]>=0)
+    {
+        if (i>n) break;
+        k[j]+=s[i]; ++i;
+    }
+    ++j;
+    while (s[i]<0)
+    {
+        if (i>n) break;
+        k[j]+=s[i]; ++i;
+    }
+    ++j;
 }
-/*
-///PRINT ARRAY, FOR DEBUG
-std::cout<<" ( ";
-    for (int i = 0; i <= n+1; i++) { std::cout<<k[i]<<" "; }
-    std::cout<<")"<<std::endl;*/
-
-
 
 j=0;
+//*******************************************************************************************vedi sotto!
+unsigned yo = k[3]; ///RIMUOVERE QUESTA RIGA RISULTA NEL PROGRAMMA NON FUNZIONANTE! MA K CAZZO!
+//***************************************************************************************************
 // step 2: remove negative numbers when handy
 int p=1;
 while (p!=0)
@@ -70,7 +84,7 @@ while (p!=0)
     while (j<=n)
     {
         if (k[j]<=0) { ++j; continue;}
-        if ( k[j]>unsigned(k[j+1]) && k[j+2]>unsigned(k[j+1]) )
+        if ( k[j]>std::abs(k[j+1]) && k[j+2]>std::abs(k[j+1]) )
         {
             k[j+2]=k[j]+k[j+1]+k[j+2];
             k[j]=0; k[j+1]=0;
@@ -79,14 +93,17 @@ while (p!=0)
         j+=2;
     }
 }
+std::cout<<"STEP 2 : ";
+///PRINT ARRAY, FOR DEBUG
+std::cout<<" ( ";
+    for (int i = 0; i <= n; i++) { std::cout<<k[i]<<" "; }
+    std::cout<<")"<<std::endl;
 
-/////PRINT ARRAY, FOR DEBUG
-//std::cout<<" ( ";
-//    for (int i = 0; i < n; i++) { std::cout<<k[i]<<" "; }
-//    std::cout<<")"<<std::endl;
 
+j=0; i=0; //i will now use "i" and "p" variables for completely different purposes, as not to waste memory
+// i will be final value that algorithm needed to find
+// p will be a value to put within i if it is the biggest number found yet, it will keep changing as i go through the array....
 
-j=0; i=0; //i will now use "i" and "p" variables for completely different purposes, so not to waste memory
 // step 3: check which positive number is bigger: IT IS THE MAX ACHIEVABLE SUM!!
 while (j<=n)
 {
