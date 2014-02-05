@@ -1,6 +1,5 @@
 #include <iostream>
-#include <vector>
-#include <cmath>
+#include <stdlib.h> //libreria c xk <cmath> del c++ usava std::abs principalmente x i floating points, qndi piu lenta
 
 
 ///PRINT ARRAY, FOR DEBUG -- programmer reference
@@ -32,6 +31,7 @@ std::cout<<" ( ";
 ///expected result for the current array of input, s[], is 7
 
 int main() {
+
 const int n=4;
 int s[n+1]={3,-2,4,-4,6};
 int k[n+1]={0};
@@ -73,18 +73,17 @@ while (i<=n)
 }
 
 j=0;
-//*******************************************************************************************vedi sotto!
-/*unsigned*/int yo = /*k[3]*/3; ///RIMUOVERE QUESTA RIGA RISULTA NEL PROGRAMMA NON FUNZIONANTE! MA K CAZZO!
-//***************************************************************************************************
 // step 2: remove negative numbers when handy
 int p=1;
 while (p!=0)
 {
     p=0;
+    int ttt; //ttt MUST be used!!! otherwise using abs(k[j+1]) will not work!
     while (j<=n)
     {
         if (k[j]<=0) { ++j; continue;}
-        if ( k[j]>std::abs(k[j+1]) && k[j+2]>std::abs(k[j+1]) )
+        ttt = k[j+1];
+        if ( k[j]>abs(ttt) && k[j+2]>abs(ttt) )
         {
             k[j+2]=k[j]+k[j+1]+k[j+2];
             k[j]=0; k[j+1]=0;
@@ -93,11 +92,12 @@ while (p!=0)
         j+=2;
     }
 }
-std::cout<<"STEP 2 : ";
+
+
 ///PRINT ARRAY, FOR DEBUG
-std::cout<<" ( ";
-    for (int i = 0; i <= n; i++) { std::cout<<k[i]<<" "; }
-    std::cout<<")"<<std::endl;
+
+
+for (int i = 0; i <= n; i++) {  } //****************************TENTARE DI RIMUOVERE QUESTA RIGA DA 0 INVECE CHE 7
 
 
 j=0; i=0; //i will now use "i" and "p" variables for completely different purposes, as not to waste memory
@@ -111,6 +111,7 @@ while (j<=n)
     p=k[j]; if (p>i) { std::swap(p,i); }
     j+=2;
 }
+
 
 std::cout<<std::endl<<"MAX ACHIEVABLE SUM WITHIN SUBSEGMENTS OF ARRAY : "<<i<<std::endl;
 
