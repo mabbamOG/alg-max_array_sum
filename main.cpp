@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stdlib.h> //libreria c xk <cmath> del c++ usava std::abs principalmente x i floating points, qndi piu lenta
+#include <stdlib.h>//i chose the standard c library 'cuz the c++ <cmath> used std::abs which was primarily made for floats which i dont use, plus it's slower
 
 
 ///PRINT ARRAY, FOR DEBUG -- programmer reference
@@ -38,6 +38,8 @@ int k[n+1]={0};
 
 int i=0, j=0;
 ///old step 1. as you can see in while (s[i]>=0) if the i++ kept on going, it could step over the array limits
+///this is NOT working
+
 // step 1: compress negative and postive subsegments of array s[] into single numbers within array k[]
 /*while (i<=n)
 {
@@ -53,8 +55,10 @@ int i=0, j=0;
     ++j;
 }*/
 
-///kinda ugly fix, needs to be cleaned up...: CERRO, I CHOOSE YOU! "pika!pika!"
+///new step1 - a
+///kinda ugly fix, needs to be cleaned up...
 
+/*
 while (i<=n)
 {
 
@@ -70,7 +74,43 @@ while (i<=n)
         k[j]+=s[i]; ++i;
     }
     ++j;
-}
+}*/
+
+///new step1 - b
+///the following for cycle, which i removed, i needed for performance comparison between new step1 a and b, but if i uncomment
+//******************************************************TRYING TO ALLOW THIS LINE MAKES THE COMPILER OUTPUT 0 INSTEAD OF 7, WTF!
+/*for (unsigned long long io; io<1000; ++io)
+{*/
+ i=0, j=0;
+while (i<=n)
+    {
+
+        if (k[j]>=0)
+        {
+            if (k[j]+s[i]<k[j]) { ++j; }
+        }
+         if (k[j]<0) //not necessary comment
+        {
+            if (k[j]+s[i]>k[j]) { ++j; }
+        }
+        k[j]+=s[i]; ++i;
+    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 j=0;
 // step 2: remove negative numbers when handy
@@ -96,8 +136,7 @@ while (p!=0)
 
 ///PRINT ARRAY, FOR DEBUG
 
-
-for (int i = 0; i <= n; i++) {  } //****************************TENTARE DI RIMUOVERE QUESTA RIGA DA 0 INVECE CHE 7
+int I = 1;//****************************TRYING TO REMOVE THIS LINE MAKES THE COMPILER OUTPUT 0 INSTEAD OF 7, WTF! this integer is used nowhere!
 
 
 j=0; i=0; //i will now use "i" and "p" variables for completely different purposes, as not to waste memory
